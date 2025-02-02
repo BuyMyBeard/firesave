@@ -3,9 +3,11 @@
     "dev": "deno run --watch src/main.ts"
   },
   "imports": {
+    "@std/path": "jsr:@std/path@^1.0.8",
+    "@types/validator": "npm:@types/validator@^13.12.2",
     "chalk": "npm:chalk@^5.4.1",
     "cmd-ts": "npm:cmd-ts@^0.13.0",
-    "execa": "npm:execa@^9.5.2",
-    "superstruct": "npm:superstruct@^2.0.2"
+    "superstruct": "npm:superstruct@^2.0.2",
+    "validator": "npm:validator@^13.12.0"
   }
 }
