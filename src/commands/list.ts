@@ -1,30 +1,10 @@
 import { command } from "cmd-ts";
 import { configOption } from "../args/config-option.ts";
 import * as path from "@std/path";
-import {
-  boolean,
-  defaulted,
-  Infer,
-  mask,
-  nonempty,
-  object,
-  optional,
-  string,
-} from "superstruct";
+import { Infer, mask } from "superstruct";
 import chalk from "chalk";
-
-const SaveMetadataStruct = object({
-  name: nonempty(string()),
-  description: optional(string()),
-  saveTime: string(),
-  isAutosave: defaulted(boolean(), false),
-});
-
-function isFulfilled<T>(
-  result: PromiseSettledResult<T>,
-): result is PromiseFulfilledResult<T> {
-  return result.status == "fulfilled";
-}
+import { SaveMetadataStruct } from "../structs.ts";
+import { formatISODate, isFulfilled } from "../utils.ts";
 
 export const listCmd = command({
   name: "List",
@@ -73,19 +53,6 @@ export const listCmd = command({
     formatSaves(metadataArr, config.saveLocation);
   },
 });
-
-function formatISODate(isoString: string): string {
-  const date = new Date(isoString);
-
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-  const seconds = String(date.getSeconds()).padStart(2, "0");
-
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-}
 
 function formatSaves(
   metadataArr: Infer<typeof SaveMetadataStruct>[],
